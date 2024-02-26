@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TravelStar</title>
+    <link rel="stylesheet" href="~/lib/sweetalert/sweetalert.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/fontawesome-free-6.1.2-web/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.12.1/af-2.4.0/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/cr-1.5.6/date-1.1.2/fc-4.1.0/fh-3.2.4/kt-2.7.0/r-2.3.0/rg-1.2.0/rr-1.2.8/sc-2.0.7/sb-1.3.4/sp-2.0.2/sl-1.4.0/sr-1.1.1/datatables.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
+
+    <link href="~/lib/template/css/elegant-icons.css" rel="stylesheet" />
+    <link href="~/lib/template/css/flaticon.css" rel="stylesheet" />
+    <link href="~/lib/template/css/owl.carousel.min.css" rel="stylesheet" />
+    @*<link href="~/lib/template/css/nice-select.css" rel="stylesheet" />*@
+    <link href="~/lib/template/css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/lib/template/css/magnific-popup.css" rel="stylesheet" />
+    <link href="~/lib/template/css/slicknav.min.css" rel="stylesheet" />
+    <link href="~/lib/template/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="header-section">
+        <div class="top-nav">
+            <div class="menu-item">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="navbar navbar-light">
+                                <a class="navbar-brand" asp-controller="Home" asp-action="Index">TravelStar</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="nav-menu text-left">
+                                <nav class="mainmenu">
+                                    <ul>
+                                        <li class="active">
+                                            <a asp-controller="Home" asp-action="Index">Home</a>
+                                        </li>
+                                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                        {
+                                            <li>
+                                                <a asp-controller="Hotel" asp-action="Index">Hotels</a>
+                                            </li>
+                                        }
+
+                                        <li>
+                                            <a asp-controller="Booking" asp-action="Index">Bookings</a>
+                                        </li>
+
+                                        @if (User.IsInRole("SuperAdmin"))
+                                        {
+                                            <li>
+                                                <a asp-controller="Account" asp-action="Index">Accounts</a>
+                                            </li>
+                                          @*  <li>
+                                                <a asp-controller="Roles" asp-action="Index">Roles</a>
+                                            </li>*@
+                                        }
+
+                                         @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                        {
+                                            <li>
+                                                <a asp-controller="Revenue" asp-action="Index">Revenues</a>
+                                            </li>
+                                        }
+                                        @*<li><a href="./rooms.html">Rooms</a></li>
+                                        <li><a href="./about-us.html">About Us</a></li>
+                                        <li>
+                                        <a href="./pages.html">Pages</a>
+                                        <ul class="dropdown">
+                                        <li><a href="./room-details.html">Room Details</a></li>
+                                        <li><a href="./blog-details.html">Blog Details</a></li>
+                                        <li><a href="#">Family Room</a></li>
+                                        <li><a href="#">Premium Room</a></li>
+                                        </ul>
+                                        </li>
+                                        <li><a href="./blog.html">News</a></li>*@
+
+                                        @*<li><a asp-controller="Home" asp-action="Index">Contact</a></li>*@
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="nav-menu">
+                                <nav class="mainmenu">
+                                    <partial name="_LoginPartial" />
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    @*<div class="container">
+        <main role="main" class="pb-3">
+            
+        </main>
+    </div>*@
+
+    @RenderBody()
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - TravelStar - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.12.1/af-2.4.0/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/cr-1.5.6/date-1.1.2/fc-4.1.0/fh-3.2.4/kt-2.7.0/r-2.3.0/rg-1.2.0/rr-1.2.8/sc-2.0.7/sb-1.3.4/sp-2.0.2/sl-1.4.0/sr-1.1.1/datatables.min.js"></script>
+    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/lib/template/js/jquery.magnific-popup.min.js"></script>
+    @*<script src="~/lib/template/js/jquery.nice-select.min.js"></script>*@
+    <script src="~/lib/template/js/jquery-ui.min.js"></script>
+    <script src="~/lib/template/js/jquery.slicknav.js"></script>
+    <script src="~/lib/template/js/owl.carousel.min.js"></script>
+    <script src="~/lib/template/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

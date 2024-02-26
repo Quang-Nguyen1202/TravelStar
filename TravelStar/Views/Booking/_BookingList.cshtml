@@ -1,0 +1,98 @@
+﻿@using TravelStar.Entities
+@model List<Booking>
+
+@foreach (Booking booking in Model)
+{
+    <div class="card room_info mb-4 mt-4" style="background-color: #c9c9c93b;">
+        <div class="card-body">
+            <h4>@booking.Room!.Hotel!.Name</h4>
+           @* <div class="mb-3">
+                <i class="fa-solid fa-star" style="color: #ffe000"></i>
+                <i class="fa-solid fa-star" style="color: #ffe000"></i>
+                <i class="fa-solid fa-star" style="color: #ffe000"></i>
+                <i class="fa-solid fa-star" style="color: #ffe000"></i>
+                <i class="fa-solid fa-star" style="color: #ffe000"></i>
+            </div>*@
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body pt-0 pl-0 pr-0">
+                            <img src="~/images/1/hotel11.png" class="img-fluid" alt="...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                <i class="fas fa-bed float-left"></i>
+                                @{
+                                    switch (booking.Room.Type)
+                                    {
+                                        case 1:
+
+                                                <h6 class="pl-4 font-weight-bold ">&nbsp;Standard</h6>
+                                            break;
+                                        case 2:
+                                                <h6 class="pl-4 font-weight-bold ">&nbsp;Deluxe</h6>
+                                            break;
+                                        case 3:
+                                                <h6 class="pl-4 font-weight-bold ">&nbsp;Vip</h6>
+                                            break;
+                                    }
+                                }
+                            </div>
+
+                            <div>
+                                <i class="icon_calendar float-left"></i>
+                                <h6 class="font-weight-bold"> &nbsp; @booking.CheckInDate.DayOfWeek, @booking.CheckInDate.Month/@booking.CheckInDate.Day/@booking.CheckInDate.Year - @booking.CheckOutDate.DayOfWeek, @booking.CheckOutDate.Month/@booking.CheckOutDate.Day/@booking.CheckOutDate.Year</h6>
+                                <h6 class="pl-4"> Check-in: 14:00 - 00:00</h6>
+                                <h6 class="pl-4"> Check-out: 1:00 - 12:00</h6>
+
+                            </div>
+
+                            <div class="mt-2">
+                                <i class="fa-solid fa-location-dot float-left"></i>
+                                <h6 class="font-weight-bold"> &nbsp; Hotel Address</h6>
+                                <h6 class="pl-4">@booking.Room.Hotel.Address, @booking.Room.Hotel.Ward!.Name, @booking.Room.Hotel.Ward!.District!.Name, @booking.Room.Hotel.Ward.District.City!.Name</h6>
+                            </div>
+
+                              <div class="mt-2">
+                                <i class="fa fa-users float-left"></i>
+                                <h6 class="font-weight-bold">&nbsp; Email booking:</h6>
+                                <h6 class="pl-4">@booking.Customer!.Email</h6>
+                            </div>
+
+                            <div class="mt-2">
+                                <i class="fas fa-hand-holding-usd float-left"></i>
+                                <h6 class="font-weight-bold">&nbsp; Total Payment :</h6>
+                                <h5 class="pl-4" style="color : orangered">&nbsp; @booking.TotalPrice USD</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                   @if (booking.PaymentDate is null) 
+                   {
+                        <a asp-action="PaypalCheckout" asp-route-bookingId="@booking.Id" class="btn btn-outline-success mt-2">Paypal Payment</a>
+                   }
+                   else
+                   {
+                        <button type="button" class="btn btn-outline-success mt-2" disabled>Booking Paid</button>
+                   }
+
+
+                    @if (booking.CancelDate is not null)
+                    {
+                        <button type="button" class="btn btn-outline-danger mt-2" disabled>Canceled</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-outline-info mt-2" onclick="Booking.cancelBooking(this, '@booking.Id')">Cancel Booking</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

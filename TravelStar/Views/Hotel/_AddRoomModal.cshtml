@@ -1,0 +1,75 @@
+﻿@using TravelStar.Model
+@model HotelModel
+<!-- Modal -->
+<div class="modal fade" id="add_room_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title_add_room_modal">Add room</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="g-3" action="@Url.Action("createroom", "Hotel")" method="post" id="create_room_form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name_room">Name Room</label>
+                                <input type="text" class="form-control" id="name_room" name="name" placeholder="Enter your room's name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control" id="description" name="description" placeholder="Enter your room's description ">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="type">Room's type</label>
+                                <select id="type" class="form-control" name="type">
+                                    <option value="" selected>Choose...</option>
+                                    <option value="1">Standard</option>
+                                    <option value="2">Deluxe</option>
+                                    <option value="3">Family</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="beds">Beds</label>
+                                <input type="number" class="form-control" id="beds" name="beds" placeholder="Enter your number of beds ">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="beds">Price</label>
+                                <input type="number" class="form-control" id="price" name="Price" placeholder="Enter room's price'">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-upload">
+                                <div class="form-upload__preview">
+                                </div>
+
+                                <span class="text-left">
+                                    <label id="upload-error" class="error" for="upload"></label>
+                                    <br>
+                                    <div class="form-upload__field float-right pt-2">
+                                        <label class="btn btn-info mb-0" for="upload">
+                                            Upload Images
+                                            <input class="form-upload__control js-form-upload-control" id="upload" name="Images" type="file" multiple onchange="Room.uploadImages(event)">
+                                        </label>
+                                        <button type="button" class="btn btn-outline-secondary btn-clear ml-3" onclick="Room.clearImages(this)">Clear</button>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" id="hotel_id_txb" name="HotelId" value="@Model.Id" hidden>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="save_add_room_btn" onclick="Room.save()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TravelStar.Entities
+@model List<Booking>
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@{
+    bool isSignIn = SignInManager.IsSignedIn(User);
+
+    string email = isSignIn ? UserManager.GetUserName(User)! : string.Empty;
+    
+}
+
+<div id="container_booking">
+</div>
+
+<partial name="_ConfirmCustomerModal" />
+
+@section Scripts{
+    <script>
+        $(() => {
+            if ('@isSignIn' === 'True') {
+                Booking.checkCustomerConfirm('@email');
+            }else{
+                $('#confirm_customer_modal').modal('show');
+            }
+        });
+    </script>
+
+
+    <script src="~/js/booking/booking.js"></script>
+}

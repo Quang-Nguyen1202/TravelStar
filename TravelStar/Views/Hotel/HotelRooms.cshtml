@@ -1,0 +1,425 @@
+﻿@using TravelStar.Model
+@using TravelStar.Entities
+@model HotelModel
+
+@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+{
+    <div class="row mb-3">
+        <div class="col-12 text-right">
+            <button type="button" class="btn btn-info" onclick="Room.showModalAddRoom()">Add room</button>
+        </div>
+    </div>
+}
+
+<div class="card hotel_info">
+    <div class="card-body">
+        <h1>@Model.Name</h1>
+        @*<p>
+            <i class="fa-solid fa-star" style="color: #ffe000"></i>
+        </p>*@
+        <p><i class="fa-solid fa-location-dot"></i> @Model.Address, @Model.Ward, @Model.District, @Model.City</p>
+
+        <!-- Slider main wrapper -->
+        <div id="wrap" class="container my-5 carousel_container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Carousel -->
+                    <div id="carousel" class="carousel slide gallery" data-ride="carousel">
+                        <div class="carousel-inner">
+                            @for (int i = 0; i < Model.ImageUrls.Count(); i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <div class="carousel-item active" data-slide-number="@i" data-toggle="lightbox" data-gallery="gallery">
+                                        <img src="@Model.ImageUrls[i]" class="d-block w-100" alt="...">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="carousel-item" data-slide-number="@i" data-toggle="lightbox" data-gallery="gallery">
+                                        <img src="@Model.ImageUrls[i]" class="d-block w-100" alt="...">
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                        <a class="carousel-fullscreen" href="#carousel" role="button">
+                            <span class="carousel-fullscreen-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Fullscreen</span>
+                        </a>
+                        <a class="carousel-pause pause" href="#carousel" role="button">
+                            <span class="carousel-pause-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Pause</span>
+                        </a>
+                    </div>
+
+                    <!-- Carousel Navigatiom -->
+                    <div id="carousel-thumbs" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            @{
+                                int indexHotel = 0;
+                            }
+                            @if (Model.ImageUrls.Count < 4)
+                            {
+                                <div class="carousel-item active" data-slide-number="0">
+                                    <div class="row mx-0">
+                                        @for (int i = 0; i < Model.ImageUrls.Count; i++)
+                                        {
+                                            <div id="carousel-selector-@i" class="thumb col-3 px-1 py-2 selected" data-target="#carousel" data-slide-to="@i">
+                                                <img src="@Model.ImageUrls[i]" class="img-fluid" alt="...">
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                int imageUrlCount = (Model.ImageUrls.Count % 4) > 0 ? (Model.ImageUrls.Count / 4) + 1 : (Model.ImageUrls.Count / 4);
+                                @for (int i = 0; i < imageUrlCount; i++)
+                                {
+                                    string active = i == 0 ? "active" : "";
+
+                                    <div class="carousel-item @active" data-slide-number="@i">
+                                        <div class="row mx-0">
+                                            @{
+                                                List<string> imageUrlsTemp = new List<string>();
+                                                if (i == 0)
+                                                {
+                                                    imageUrlsTemp = Model.ImageUrls.Take(4).ToList();
+                                                }
+                                                else
+                                                {
+                                                    if (i > 0 && i < (Model.ImageUrls.Count / 4) - 1)
+                                                    {
+                                                        imageUrlsTemp = Model.ImageUrls.Skip(4 * (i + 1)).Take(4).ToList();
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Model.ImageUrls.Skip(4 * (i)).Count() < 4)
+                                                        {
+                                                            imageUrlsTemp = Model.ImageUrls.Skip(4 * (i)).ToList();
+                                                        }
+                                                        else
+                                                        {
+                                                            imageUrlsTemp = Model.ImageUrls.Skip(4 * (i)).Take(4).ToList();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            @for (int j = 0; j < imageUrlsTemp.Count; j++)
+                                            {
+                                                int indexSlide = indexHotel++;
+
+                                                <div id="carousel-selector-@indexSlide" class="thumb col-3 px-1 py-2" data-target="#carousel" data-slide-to="@indexSlide">
+                                                    <img src="@imageUrlsTemp[j]" class="img-fluid" alt="...">
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                            @*<div class="carousel-item" data-slide-number="2">
+                            <div class="row mx-0">
+                            <div id="carousel-selector-8" class="thumb col-3 px-1 py-2" data-target="#carousel" data-slide-to="8">
+                            <img src="~/images/1/hotel9.png" class="img-fluid" alt="...">
+                            </div>
+                            <div id="carousel-selector-9" class="thumb col-3 px-1 py-2" data-target="#carousel" data-slide-to="9">
+                            <img src="~/images/1/hotel10.png" class="img-fluid" alt="...">
+                            </div>
+                            <div id="carousel-selector-10" class="thumb col-3 px-1 py-2" data-target="#carousel" data-slide-to="10">
+                            <img src="~/images/1/hotel11.png" class="img-fluid" alt="...">
+                            </div>
+                            <div id="carousel-selector-11" class="thumb col-3 px-1 py-2" data-target="#carousel" data-slide-to="11">
+                            <img src="~/images/1/hotel12.png" class="img-fluid" alt="...">
+                            </div>
+                            </div>
+                            </div>*@
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel-thumbs" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel-thumbs" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Slider main wrapper -->
+
+        <h3 class="mb-5">Tiện nghi khách sạn</h3>
+        <div class="convenient row">
+            <div class="col-md-2 text-center">
+                <i class="fa-solid fa-fan" style="color: deepskyblue; font-size: 1.8rem;"></i>
+                <h6>Máy lạnh</h6>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <i class="fa-solid fa-utensils" style="color: deepskyblue; font-size: 1.8rem;"></i>
+                <h6>Nhà Hàng</h6>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <i class="fa-solid fa-clock-rotate-left" style="color: deepskyblue; font-size: 1.8rem;"></i>
+                <h6>Lễ tân 24h</h6>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <i class="fa-solid fa-square-parking" style="color: deepskyblue; font-size: 1.8rem;"></i>
+                <h6>Chỗ đậu xe</h6>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <i class="fa-solid fa-elevator" style="color: deepskyblue; font-size: 1.8rem;"></i>
+                <h6>Thang máy</h6>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <i class="fa-solid fa-wifi" style="color: deepskyblue; font-size: 1.8rem;"></i>
+                <h6>Máy lạnh</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="rooms_container mt-5">
+    @foreach (RoomModel room in Model.Rooms!)
+    {
+        <div class="card room_info mb-4" style="background-color: #c9c9c93b;">
+            <div class="card-body">
+                <h4>@room.Name</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body pt-0 pl-0 pr-0">
+                                <!-- Slider main wrapper -->
+                                <div id="wrap_room_@room.Id" class="container carousel_room_container">
+                                    <div class="row">
+                                        <div class="col-12 pl-0 pr-0">
+                                            <!-- Carousel -->
+                                            <div id="carousel_room_@room.Id" class="carousel slide gallery" data-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    @for (int i = 0; i < room.ImageUrls.Count(); i++)
+                                                    {
+                                                        if (i == 0)
+                                                        {
+                                                            <div class="carousel-item active" data-slide-number="@i" data-toggle="lightbox" data-gallery="gallery">
+                                                                <img src="@room.ImageUrls[i]" class="d-block w-100" alt="...">
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="carousel-item" data-slide-number="@i" data-toggle="lightbox" data-gallery="gallery">
+                                                                <img src="@room.ImageUrls[i]" class="d-block w-100" alt="...">
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                                <a class="carousel-control-prev" href="#carousel_room_@room.Id" role="button" data-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next" href="#carousel_room_@room.Id" role="button" data-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                                <a class="carousel-fullscreen" href="#carousel_room_@room.Id" role="button">
+                                                    <span class="carousel-fullscreen-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Fullscreen</span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Carousel Navigatiom -->
+                                            <div id="carousel_room_thumbs_@room.Id" class="carousel slide" data-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    @{
+                                                        int index = 0;
+                                                    }
+                                                    @if (room.ImageUrls.Count < 4)
+                                                    {
+                                                        <div class="carousel-item  active" data-slide-number="0">
+                                                            <div class="row mx-0">
+
+                                                                @for (int i = 0; i < room.ImageUrls.Count; i++)
+                                                                {
+                                                                    <div id="carousel-selector-@i" class="thumb col-3 px-1 py-2 selected" data-target="#carousel_room_@room.Id" data-slide-to="@i">
+                                                                        <img src="@room.ImageUrls[i]" class="img-fluid" alt="...">
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        int imageUrlCount = (room.ImageUrls.Count % 4) > 0 ? (room.ImageUrls.Count / 4) + 1 : (room.ImageUrls.Count / 4);
+                                                        @for (int i = 0; i < imageUrlCount; i++)
+                                                        {
+                                                            string active = i == 0 ? "active" : "";
+
+                                                            <div class="carousel-item  @active" data-slide-number="@i">
+                                                                <div class="row mx-0">
+                                                                    @{
+                                                                        List<string> imageUrlsTemp = new List<string>();
+                                                                        if (i == 0)
+                                                                        {
+                                                                            imageUrlsTemp = room.ImageUrls.Take(4).ToList();
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            if (i > 0 && i < (room.ImageUrls.Count / 4) - 1)
+                                                                            {
+                                                                                imageUrlsTemp = room.ImageUrls.Skip(4 * (i + 1)).Take(4).ToList();
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                if (room.ImageUrls.Skip(4 * (i)).Count() < 4)
+                                                                                {
+                                                                                    imageUrlsTemp = room.ImageUrls.Skip(4 * (i)).ToList();
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    imageUrlsTemp = room.ImageUrls.Skip(4 * (i)).Take(4).ToList();
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    @for (int j = 0; j < imageUrlsTemp.Count; j++)
+                                                                    {
+                                                                        int indexSlide = index++;
+
+                                                                        <div id="carousel-selector-@indexSlide" class="thumb col-3 px-1 py-2 selected" data-target="#carousel_room_@room.Id" data-slide-to="@indexSlide">
+                                                                            <img src="@imageUrlsTemp[j]" class="img-fluid" alt="...">
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                                <a class="carousel-control-prev" href="#carousel_room_thumbs_@room.Id" role="button" data-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next" href="#carousel_room_thumbs_@room.Id" role="button" data-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Slider main wrapper -->
+
+                                @*<div class="room_detail pl-3">
+                                    <div class="area">
+                                        <i class="fa-solid fa-ruler-combined" style="color: deepskyblue;"></i>
+                                        <label>25.0 m2</label>
+                                    </div>
+
+                                    <p class="mb-1"><span style="background-color: #caebca; border-radius: 1rem; color: green">&nbsp;&nbsp; Tủ lạnh &nbsp;&nbsp;</span></p>
+                                    <p class="mb-1"><span style="background-color: #caebca; border-radius: 1rem; color: green">&nbsp;&nbsp; Máy lạnh &nbsp;&nbsp;</span></p>
+                                    <p class="mb-1"><span style="background-color: #caebca; border-radius: 1rem; color: green">&nbsp;&nbsp; Nước nóng &nbsp;&nbsp;</span></p>
+
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-info mt-3">Xem chi tiết phòng</button>
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>@room.Name</h5>
+                                <div>
+                                    @{
+                                        switch (room.Type)
+                                        {
+                                            case 1:
+                                                <h5>Standard</h5>
+                                                break;
+                                            case 2:
+                                                <h5>Deluxe</h5>
+                                                break;
+                                            case 3:
+                                                <h5>Vip</h5>
+                                                break;
+                                        }
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-bed"></i>
+                                        <label>@room.Beds Giường </label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <h5> @room.Description  </h5>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p>
+                                            <i class="fa-solid fa-shop-slash"></i>
+                                            <label>Không bữa sáng</label>
+                                        </p>
+                                        <p>
+                                            <i class="fa-solid fa-wifi" style="color: #00d731"></i>
+                                            <label style="color: #00d731">Wifi miễn phí</label>
+                                        </p>
+                                        <p>
+                                            <i class="fa-solid fa-ban-smoking" style="color: #00d731"></i>
+                                            <label style="color: #00d731">Không hút thuốc</label>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-handshake-slash"></i>
+                                        <label>Hủy phòng có thu phí</label>
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <h6 style="color: orangered">@room.Price USD</h6>
+                                        <label>/ phòng / đêm</label><br>
+                                        <button type="button" class="btn mt-3" style="background: orangered; color: white" onclick="Room.showBookingModal(@room.Id, '@room.Price')">Đặt ngay</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                        {
+                            <div class="mt-2">
+                               @* <button type="button" class="btn btn-outline-primary" id="">Edit</button>*@
+                                <button type="button" class="btn btn-outline-danger" onclick="Room.removeRoom('@room.Id')">Delete room</button>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Modal -->
+<partial name="_AddRoomModal" model="@Model" />
+<partial name="_BookingRoomModal" model="@Model" />
+<partial name="_ConfirmBookingModal" />
+
+@section Scripts{
+    <script src="~/js/Room/Room.js"></script>
+}

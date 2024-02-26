@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\ConfirmBookingEmailTemplate.html" />
+    <None Remove="Resources\InfoBookingSuccessEmailTemplate.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\InfoBookingSuccessEmailTemplate.html" />
+    <EmbeddedResource Include="Resources\ConfirmBookingEmailTemplate.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.104.0-preview2" />
+    <PackageReference Include="MailKit" Version="2.15.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Model\TravelStar.Model.csproj" />
+    <ProjectReference Include="..\TravelStar.Repositories\TravelStar.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

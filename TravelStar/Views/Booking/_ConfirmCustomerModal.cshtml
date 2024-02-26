@@ -1,0 +1,25 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="confirm_customer_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title_confirm_booking_modal">Confirm Customer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" action="@Url.Action("confirmcustomer", "Booking")" method="get" id="confirm_customer_form">
+                    <div class="form-group col-md-12 text-center">
+                        <label for="confirm_code">Vui lòng nhập Email đã sử dụng khi đặt phòng trước đó.</label>
+                        <input type="text" class="form-control" id="confirm_email" name="email" placeholder="Enter your email">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="Booking.closeCustomerConfirm()">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="save_confirm_customer_btn" onclick="Booking.checkCustomerConfirm()">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>

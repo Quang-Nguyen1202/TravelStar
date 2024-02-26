@@ -1,0 +1,106 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/UserManagement.styles.css" asp-append-version="true" />
+    <link href="~/lib/register_form/css/bootstrap/mixins/_border-radius.css" rel="stylesheet" />
+    <link href="~/lib/register_form/css/bootstrap/mixins/_reset-text.css" rel="stylesheet" />
+    <link href="~/lib/register_form/css/bootstrap/mixins/_screen-reader.css" rel="stylesheet" />
+    <link href="~/lib/register_form/css/bootstrap/mixins/_text-hide.css" rel="stylesheet" />
+    <link href="~/lib/register_form/css/bootstrap/mixins/_visibility.css" rel="stylesheet" />
+    <link href="~/lib/register_form/css/bootstrap/_media.css" rel="stylesheet" />
+    <link href="~/lib/register_form/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/register_form/css/style.css" rel="stylesheet" />
+</head>
+
+<body class="img register_bg js-fullheight">
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="login-wrap p-0">
+                        <h3 class="mb-4 text-center">REGISTER</h3>
+                        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                @*<input asp-for="Input.Email" class="form-control" placeholder="Email" autocomplete="username" aria-required="true" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>*@
+                                <input asp-for="Input.Email" class="form-control" placeholder="Email" autocomplete="username" aria-required="true" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                @*<input asp-for="Input.Password" class="form-control" placeholder="Password" autocomplete="current-password" aria-required="true" />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>*@
+                                <input asp-for="Input.Password" class="form-control" placeholder="Password" autocomplete="new-password" aria-required="true" />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password" autocomplete="new-password" aria-required="true" />
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <button id="registerSubmit" type="submit" class="form-control btn btn-primary submit px-3">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/register_form/js/bootstrap.min.js"></script>
+        <script src="~/lib/register_form/js/jquery.min.js"></script>
+        <script src="~/lib/register_form/js/main.js"></script>
+        <script src="~/lib/register_form/js/popper.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>
+
+
+@*<div class="row">
+    <div class="col-md-6 offset-md-3 mt-5">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h1 class="text-center">Đăng Ký</h1>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="text-right">
+                <button id="registerSubmit" type="submit" class=" btn btn-lg btn-primary">Register</button>
+            </div>
+        </form>
+    </div>
+</div>*@
+
+@*@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}*@

@@ -1,0 +1,80 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/UserManagement.styles.css" asp-append-version="true" />
+    <link href="~/lib/login_form/css/bootstrap/mixins/_border-radius.css" rel="stylesheet" />
+    <link href="~/lib/login_form/css/bootstrap/mixins/_reset-text.css" rel="stylesheet" />
+    <link href="~/lib/login_form/css/bootstrap/mixins/_screen-reader.css" rel="stylesheet" />
+    <link href="~/lib/login_form/css/bootstrap/mixins/_text-hide.css" rel="stylesheet" />
+    <link href="~/lib/login_form/css/bootstrap/mixins/_visibility.css" rel="stylesheet" />
+    <link href="~/lib/login_form/css/bootstrap/utilities/_stretched-link.css" rel="stylesheet" />
+    <link href="~/lib/login_form/css/bootstrap/_media.css" rel="stylesheet" />
+    <link href="~/lib/login_form/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/login_form/css/style.css" rel="stylesheet" />
+</head>
+
+<body class="img login_bg js-fullheight">
+    
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="login-wrap p-0">
+                        <h3 class="mb-4 text-center">ACCOUNT LOGIN</h3>
+                        <form id="account" method="post" >
+                            <div class="form-group">
+                                @*<input type="text" class="form-control" placeholder="Username" required>*@
+                                @*<label asp-for="Input.Email" class="form-label"></label>*@
+                                <input asp-for="Input.Email" class="form-control" placeholder="Email" autocomplete="username" aria-required="true" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                               @* <input id="password-field" type="password" class="form-control" placeholder="Password" required>*@
+                                @*<label asp-for="Input.Password" class="form-label"></label>*@
+                                <input asp-for="Input.Password" class="form-control" placeholder="Password" autocomplete="current-password" aria-required="true" />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="form-group">
+                                <button id="login-submit" type="submit" class="form-control btn btn-primary submit px-3">Log in</button>
+                            </div>
+                            <div class="form-group d-md-flex">
+                                <div class="w-50 text-md-right">
+                                    <a href="#" style="color: #fff">Don't have an account ?  </a>
+                                </div>
+                                <div class="w-50 text-md-right">
+                                    <a asp-page="./Register" class="text-right px-4" asp-route-returnUrl="@Model.ReturnUrl">Sign up</a>
+                                </div>
+                            </div>
+                        </form>
+                        <p class="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
+                        <div class="social d-flex text-center">
+                            <a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> Facebook</a>
+                            <a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span> Twitter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/login_form/js/bootstrap.min.js"></script>
+    <script src="~/lib/login_form/js/jquery.min.js"></script>
+    <script src="~/lib/login_form/js/main.js"></script>
+    <script src="~/lib/login_form/js/popper.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

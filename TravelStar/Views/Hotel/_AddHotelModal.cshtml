@@ -1,0 +1,84 @@
+﻿@using TravelStar.Entities
+
+@model AppUser
+
+<!-- Modal -->
+<div class="modal fade" id="add_hotel_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title_add_hotel_modal">Add hotel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="g-3" action="@Url.Action("createhotel", "Hotel")" method="post" id="create_hotel_form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name_hotel">Name Hotel</label>
+                                <input type="text" class="form-control" id="name_hotel" name="name" placeholder="Enter your hotel's name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone_number">Phone Number</label>
+                                <input type="text" class="form-control" id="phone_number" name="phone" placeholder="Enter your hotel's phone number">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Enter your hotel's address">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <select id="city" class="form-control" name="city" onchange="Hotel.changeCity()">
+                                    <option value="" selected>Choose...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="district">District</label>
+                                <select id="district" class="form-control" name="district" onchange="Hotel.changeDistrict()">
+                                    <option value="" selected>Choose...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="ward">Ward</label>
+                                <select id="ward" class="form-control" name="wardId">
+                                    <option value="" selected>Choose...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-upload">
+                                <div class="form-upload__preview">
+                                </div>
+
+                                <span class="text-left">
+                                    <label id="upload-error" class="error" for="upload"></label>
+                                    <br>
+                                    <div class="form-upload__field float-right pt-2">
+                                        <label class="btn btn-info mb-0" for="upload">
+                                            Upload Images
+                                            <input class="form-upload__control js-form-upload-control" id="upload" name="Images" type="file" multiple onchange="Hotel.uploadImages(event)">
+                                        </label>
+                                        <button type="button" class="btn btn-outline-secondary btn-clear ml-3" onclick="Hotel.clearImages(this)">Clear</button>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="text" name="UserId" value="@Model.Id" hidden>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="save_add_hotel_btn" onclick="Hotel.save()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
